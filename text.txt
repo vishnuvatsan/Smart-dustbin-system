@@ -1,1 +1,77 @@
-hello
+class Sensor {
+    private int fillLevel; // In percentage (0 to 100)
+
+    public Sensor() {
+        this.fillLevel = 0; // Initial fill level is 0%
+    }
+
+    // Simulate the trash level increasing over time or based on input
+    public void updateFillLevel(int newLevel) {
+        if (newLevel >= 0 && newLevel <= 100) {
+            this.fillLevel = newLevel;
+        } else {
+            System.out.println("Invalid fill level. Please enter a value between 0 and 100.");
+        }
+    }
+
+    // Get the current fill level
+    public int getFillLevel() {
+        return this.fillLevel;
+    }
+}
+
+class Dustbin {
+    private Sensor sensor;
+    private int maxCapacity;
+
+    public Dustbin(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+        this.sensor = new Sensor();
+    }
+
+    public void checkFillLevel() {
+        int fillLevel = sensor.getFillLevel();
+        System.out.println("Current fill level: " + fillLevel + "%");
+
+        // Trigger alert if the bin is full or near full (e.g., 80% full)
+        if (fillLevel >= 80) {
+            alert();
+        }
+    }
+
+    private void alert() {
+        System.out.println("Alert: The dustbin is almost full! Please schedule a collection.");
+    }
+
+    // Simulate the update of the fill level
+    public void simulateFillLevel(int fillLevel) {
+        sensor.updateFillLevel(fillLevel);
+    }
+}
+
+class WasteManagementSystem {
+    public void monitorBin(Dustbin bin) {
+        bin.checkFillLevel();
+    }
+}
+
+public class SmartDustbinSystem {
+    public static void main(String[] args) {
+        // Create a Dustbin with a max capacity of 100%
+        Dustbin dustbin = new Dustbin(100);
+        
+        // Create a Waste Management System to monitor the dustbin
+        WasteManagementSystem wasteManagement = new WasteManagementSystem();
+
+        // Simulate filling the dustbin at different times
+        dustbin.simulateFillLevel(30); // Fill bin to 30%
+        wasteManagement.monitorBin(dustbin); // Monitor the bin
+
+        dustbin.simulateFillLevel(85); // Fill bin to 85%
+        wasteManagement.monitorBin(dustbin); // Monitor the bin
+
+        dustbin.simulateFillLevel(100); // Fill bin to 100%
+        wasteManagement.monitorBin(dustbin); // Monitor the bin
+    }
+}
+
